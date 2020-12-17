@@ -34,11 +34,10 @@ sudo apt-get install -y \
      dnsmasq unzip tree redis-tools jq curl tmux awscli nfs-common \
      apt-transport-https ca-certificates gnupg2
 
+# Install go
+sudo snap install go --channel 1.15.5 --classic
 # Install sockaddr
-aws s3 cp "s3://nomad-team-dev-test-binaries/tools/sockaddr_linux_amd64" /tmp/sockaddr
-sudo mv /tmp/sockaddr /usr/local/bin
-sudo chmod +x /usr/local/bin/sockaddr
-sudo chown root:root /usr/local/bin/sockaddr
+go get -u github.com/hashicorp/go-sockaddr/cmd/sockaddr
 
 # Disable the firewall
 sudo ufw disable || echo "ufw not installed"
