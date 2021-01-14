@@ -48,7 +48,7 @@ build {
   }
 
   provisioner "powershell" {
-    inline = ["/opt/provision.ps1 -nomad_version 0.12.7 -nostart"]
+    inline = ["/opt/provision.ps1 -nomad_version 1.0.2 -nostart"]
   }
 
   # this restart is required for adding the "containers feature", but we can

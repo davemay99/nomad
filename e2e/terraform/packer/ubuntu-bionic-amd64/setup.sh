@@ -5,15 +5,15 @@
 set -e
 
 # Will be overwritten at test time with the version specified
-NOMADVERSION=0.12.7
-CONSULVERSION=1.9.0
-VAULTVERSION=1.5.4
+NOMADVERSION=1.0.2
+CONSULVERSION=1.9.1
+VAULTVERSION=1.6.1
 
 NOMAD_PLUGIN_DIR=/opt/nomad/plugins/
 
 mkdir_for_root() {
-    sudo mkdir -p "$1"
-    sudo chmod 755 "$1"
+     sudo mkdir -p "$1"
+     sudo chmod 755 "$1"
 }
 
 # Disable interactive apt prompts
@@ -35,7 +35,8 @@ sudo apt-get install -y \
      apt-transport-https ca-certificates gnupg2
 
 # Install go
-sudo snap install go --channel 1.15.5 --classic
+sudo snap install go --channel 1.15 --classic
+
 # Install sockaddr
 go get -u github.com/hashicorp/go-sockaddr/cmd/sockaddr
 
