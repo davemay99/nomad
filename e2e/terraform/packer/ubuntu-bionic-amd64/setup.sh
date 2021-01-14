@@ -108,8 +108,8 @@ sudo apt-get install -y openjdk-8-jdk
 echo "Installing CNI plugins"
 sudo mkdir -p /opt/cni/bin
 wget -q -O - \
-     https://github.com/containernetworking/plugins/releases/download/v0.8.6/cni-plugins-linux-amd64-v0.8.6.tgz \
-    | sudo tar -C /opt/cni/bin -xz
+     https://github.com/containernetworking/plugins/releases/download/v0.8.6/cni-plugins-linux-amd64-v0.8.6.tgz |
+     sudo tar -C /opt/cni/bin -xz
 
 echo "Installing Podman"
 sudo apt-get -y install podman
@@ -143,7 +143,7 @@ sudo chown root:root /etc/dnsmasq.d/default
 
 # this is going to be overwritten at provisioning time, but we need something
 # here or we can't fetch binaries to do the provisioning
-echo 'nameserver 8.8.8.8' > /tmp/resolv.conf
+echo 'nameserver 8.8.8.8' >/tmp/resolv.conf
 sudo mv /tmp/resolv.conf /etc/resolv.conf
 
 sudo mv /tmp/linux/dnsmasq.service /etc/systemd/system/dnsmasq.service
@@ -158,7 +158,7 @@ sudo sed -i 's/GRUB_CMDLINE_LINUX="[^"]*/& cgroup_enable=memory swapaccount=1/' 
 sudo update-grub
 
 echo "Configuring user shell"
-sudo tee -a /home/ubuntu/.bashrc << 'EOF'
+sudo tee -a /home/ubuntu/.bashrc <<'EOF'
 IP_ADDRESS=$(/usr/local/bin/sockaddr eval 'GetPrivateIP')
 export CONSUL_RPC_ADDR=$IP_ADDRESS:8400
 export CONSUL_HTTP_ADDR=$IP_ADDRESS:8500
