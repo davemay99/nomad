@@ -31,3 +31,18 @@ module "keys" {
   source  = "mitchellh/dynamic-keys/aws"
   version = "v2.0.0"
 }
+
+# Store keys in SSM
+resource "aws_ssm_parameter" "ssm_private_key_pem" {
+  name = private_key_filename
+  type = "SecureString"
+  # value = "${data.local_file.yourkeyfile.content}"
+  value = tls_private_key.generated.private_key_pem
+}
+
+resource "aws_ssm_parameter" "ssm_public_key_openssh" {
+  name = public_key_filename
+  type = "SecureString"
+  # value = "${data.local_file.yourkeyfile.content}"
+  value = tls_private_key.generated.public_key_openssh
+}
