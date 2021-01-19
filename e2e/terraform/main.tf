@@ -40,9 +40,10 @@ resource "aws_ssm_parameter" "ssm_private_key_pem" {
   value = tls_private_key.generated
 }
 
-# resource "aws_ssm_parameter" "ssm_public_key_openssh" {
-#   name = public_key_filename
-#   type = "SecureString"
-#   # value = "${data.local_file.yourkeyfile.content}"
-#   value = tls_private_key.generated.public_key_openssh
-# }
+resource "aws_ssm_parameter" "ssm_public_key_openssh" {
+  name = public_key_filename
+  type = "SecureString"
+  # value = "${data.local_file.yourkeyfile.content}"
+  # value = tls_private_key.generated.public_key_openssh
+  value = "${path.root}/keys/${local.random_name}.pem"
+}
