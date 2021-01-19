@@ -39,20 +39,9 @@ resource "aws_ssm_parameter" "ssm_private_key_pem_filename" {
   value = "${path.root}/keys/${local.random_name}.pem"
 }
 
-resource "aws_ssm_parameter" "ssm_private_key_pem" {
-  name  = "${local.random_name}-private_key"
-  type  = "SecureString"
-  value = data.local_file.private_key_pem.content
-}
-
 resource "aws_ssm_parameter" "ssm_public_key_openssh_filename" {
   name  = "${local.random_name}-public_key_filename"
   type  = "String"
   value = "${path.root}/keys/${local.random_name}.pub"
 }
 
-resource "aws_ssm_parameter" "ssm_public_key_openssh" {
-  name  = "${local.random_name}-public_key"
-  type  = "SecureString"
-  value = data.local_file.public_key_openssh.content
-}
