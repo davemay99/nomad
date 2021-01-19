@@ -34,16 +34,14 @@ module "keys" {
 
 # Store keys in SSM
 resource "aws_ssm_parameter" "ssm_private_key_pem" {
-  name = "${local.random_name}-private_key_filename"
-  type = "SecureString"
-  # value = "${data.local_file.yourkeyfile.content}"
-  value = tls_private_key.generated
+  name  = "${local.random_name}-private_key_filename"
+  type  = "SecureString"
+  value = data.local_file.private_key_pem
+  #value = "${path.root}/keys/${local.random_name}.pem"
 }
 
 resource "aws_ssm_parameter" "ssm_public_key_openssh" {
-  name = "${local.random_name}-public_key_filename"
-  type = "SecureString"
-  # value = "${data.local_file.yourkeyfile.content}"
-  # value = tls_private_key.generated.public_key_openssh
+  name  = "${local.random_name}-public_key_filename"
+  type  = "SecureString"
   value = "${path.root}/keys/${local.random_name}.pem"
 }
