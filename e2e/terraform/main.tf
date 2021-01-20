@@ -32,27 +32,22 @@ module "keys" {
   version = "v2.0.0"
 }
 
-# Store keys in SSM
-resource "aws_ssm_parameter" "ssm_private_key_pem_filename" {
-  name  = "${local.random_name}-private_key_filename"
-  type  = "String"
-  value = "${path.root}/keys/${local.random_name}.pem"
+# Explicit local_file with permissions
+resource "local_file" "private_key" {
+  content         = module.keys.private_key_pem
+  filename        = module.keys.private_key_filepath
+  file_permission = "0600"
 }
 
+# Store keys in SSM
 resource "aws_ssm_parameter" "ssm_private_key_pem" {
   name  = "${local.random_name}-private_key"
   type  = "SecureString"
   value = module.keys.private_key_pem
 }
 
-resource "aws_ssm_parameter" "ssm_public_key_openssh_filename" {
-  name  = "${local.random_name}-public_key_filename"
-  type  = "String"
-  value = "${path.root}/keys/${local.random_name}.pub"
-}
-
 resource "aws_ssm_parameter" "ssm_public_key_openssh" {
   name  = "${local.random_name}-public_key"
-  type  = "SecureString"
+  type  = "String"
   value = module.keys.public_key_openssh
 }
