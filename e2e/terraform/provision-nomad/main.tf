@@ -19,9 +19,17 @@ locals {
   _arg = var.platform == "windows_amd64" ? "-" : "--"
 }
 
+# Explicit local_file with permissions
+resource "local_file" "private_key" {
+  content         = module.keys.private_key_pem
+  filename        = module.keys.private_key_filepath
+  file_permission = "0600"
+}
+
 resource "null_resource" "provision_nomad" {
 
   depends_on = [
+    local_file.private_key,
     null_resource.upload_custom_configs,
     null_resource.upload_nomad_binary
   ]
