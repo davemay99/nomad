@@ -39,8 +39,10 @@ resource "null_resource" "provision_nomad" {
   # workaround a race with the Windows userdata script that installs the
   # authorized_key. Unfortunately this still results in a bunch of "permission
   # denied" errors while waiting for those keys to be configured.
+
+  # TODO: this gets stuck in a loop
   provisioner "local-exec" {
-    command = "until ssh -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${var.connection.private_key} -p ${var.connection.port} ${var.connection.user}@${var.connection.host} ${data.template_file.provision_script.rendered}; do sleep 5; done"
+    command = "$endTime = (Get-Date).AddSeconds(300); until ((ssh -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${var.connection.private_key} -p ${var.connection.port} ${var.connection.user}@${var.connection.host} ${data.template_file.provision_script.rendered}) -or ((Get-Date) -gt $endTime)); do sleep 5; done"
   }
 
 }
