@@ -27,7 +27,7 @@ module "nomad_server" {
     user        = "ubuntu"
     host        = "${aws_instance.server[count.index].public_ip}"
     port        = 22
-    private_key = "${path.root}/keys/${local.random_name}.pem"
+    private_key = module.keys.private_key_pem
   }
 }
 
