@@ -21,8 +21,8 @@ locals {
 
 # Explicit local_file with permissions
 resource "local_file" "private_key" {
-  content         = module.keys.private_key_pem
-  filename        = module.keys.private_key_filepath
+  # content         = module.keys.private_key_pem
+  filename        = ${path.root}/keys/${local.random_name}.pem
   file_permission = "0600"
 }
 
