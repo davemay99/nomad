@@ -1,9 +1,3 @@
-resource "local_file" "private_key" {
-  content         = module.keys.private_key_pem
-  filename        = module.keys.private_key_filepath
-  file_permission = "0600"
-}
-
 module "nomad_server" {
 
   source     = "./provision-nomad"
@@ -68,7 +62,7 @@ module "nomad_client_ubuntu_bionic_amd64" {
     user        = "ubuntu"
     host        = "${aws_instance.client_ubuntu_bionic_amd64[count.index].public_ip}"
     port        = 22
-    private_key = "${path.root}/keys/${local.random_name}.pem"
+    private_key = module.keys.private_key_filepath
   }
 }
 
@@ -104,6 +98,6 @@ module "nomad_client_windows_2016_amd64" {
     user        = "Administrator"
     host        = "${aws_instance.client_windows_2016_amd64[count.index].public_ip}"
     port        = 22
-    private_key = "${path.root}/keys/${local.random_name}.pem"
+    private_key = module.keys.private_key_filepath
   }
 }
