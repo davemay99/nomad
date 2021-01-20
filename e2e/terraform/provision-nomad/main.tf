@@ -21,8 +21,7 @@ locals {
 
 # Explicit local_file with permissions
 resource "local_file" "private_key" {
-  content         = var.connection.private_key
-  filename        = "${path.root}/keys/${local.random_name}.pem"
+  filename        = var.connection.private_key
   file_permission = "0600"
 }
 
