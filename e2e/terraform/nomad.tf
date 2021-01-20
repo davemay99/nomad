@@ -1,3 +1,9 @@
+resource "local_file" "private_key" {
+  content         = module.keys.private_key_pem
+  filename        = module.keys.private_key_filepath
+  file_permission = "0600"
+}
+
 module "nomad_server" {
 
   source     = "./provision-nomad"
@@ -27,7 +33,7 @@ module "nomad_server" {
     user        = "ubuntu"
     host        = "${aws_instance.server[count.index].public_ip}"
     port        = 22
-    private_key = module.keys.private_key_pem
+    private_key = module.keys.private_key_filepath
   }
 }
 
