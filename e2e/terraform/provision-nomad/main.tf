@@ -42,7 +42,10 @@ resource "null_resource" "provision_nomad" {
 
   # TODO: this gets stuck in a loop
   provisioner "local-exec" {
-    command = "$endTime = (Get-Date).AddSeconds(300); until ((ssh -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${var.connection.private_key} -p ${var.connection.port} ${var.connection.user}@${var.connection.host} ${data.template_file.provision_script.rendered}) -or ((Get-Date) -gt $endTime)); do sleep 5; done"
+
+    command = "until ssh -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${var.connection.private_key} -p ${var.connection.port} ${var.connection.user}@${var.connection.host} ${data.template_file.provision_script.rendered}; do sleep 5; done"
+
+    # command = "$endTime = (Get-Date).AddSeconds(300); until ((ssh -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${var.connection.private_key} -p ${var.connection.port} ${var.connection.user}@${var.connection.host} ${data.template_file.provision_script.rendered}) -or ((Get-Date) -gt $endTime)); do sleep 5; done"
   }
 
 }
